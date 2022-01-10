@@ -205,6 +205,15 @@ export function getKeyPairFromPath(mnemonic: string, path: string): KeyPair {
     .getPrivateKeyString();
   return getKeyPair(grindKey(privateKey));
 }
+export function getKeyPairFromSeedAndPath(seed: string, path: string): KeyPair {
+  //const seed = bip39.mnemonicToSeedSync(mnemonic).toString('hex');
+  const privateKey = hdkey
+    .fromMasterSeed(Buffer.from(seed, 'hex'))
+    .derivePath(path)
+    .getWallet()
+    .getPrivateKeyString();
+  return getKeyPair(grindKey(privateKey));
+}
 
 export function getKeyPair(privateKey: string): KeyPair {
   return starkEc.keyFromPrivate(privateKey, 'hex');
